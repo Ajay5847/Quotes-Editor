@@ -1,4 +1,5 @@
 class Quote < ApplicationRecord
+  has_many :line_item_dates, dependent: :destroy
   scope :ordered, -> { order(id: :desc) }
   
   validates :name, presence: true

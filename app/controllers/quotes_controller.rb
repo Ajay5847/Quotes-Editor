@@ -6,6 +6,7 @@ class QuotesController < ApplicationController
   end
 
   def show
+    @line_item_dates = @quote.line_item_dates.includes(:line_items).ordered
   end
 
   def new
@@ -19,7 +20,7 @@ class QuotesController < ApplicationController
       
       respond_to do |format|
         format.html { redirect_to quotes_path, notice: "Quote successfully created!" }
-        format.turbo_stream
+        format.turbo_stream { flash.now[:notice] = "Quote successfully created!" }
       end
     else
       render :new, status: :unprocessable_entity
@@ -39,7 +40,7 @@ class QuotesController < ApplicationController
     
     respond_to do |format|
       format.html { redirect_to quotes_path, notice: "Quote successfully destroyed!" }
-      format.turbo_stream
+      format.turbo_stream { flash.now[:notice] = "Quote successfully destroyed!" }
     end
   end
 
